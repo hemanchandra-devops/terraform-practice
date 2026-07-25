@@ -1,3 +1,3 @@
-output "ec2_output" {
-  value = aws_instance.terraform
-}
+# output "ec2_output" {
+#   value = aws_instance.terraform
+# }
