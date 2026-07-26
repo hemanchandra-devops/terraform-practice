@@ -17,6 +17,31 @@ resource "aws_instance" "terraform" {
     command = "echo 'Instance is deleted'"
     when    = destroy
   }
+
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf install nginx -y",
+      "sudo systemctl start nginx",
+      "sudo systemctl enable nginx"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo systemctl stop nginx",
+      "sudo systemctl disable nginx",
+      "echo 'Stoped Nginx server'"
+    ]
+    when = destroy
+  }
+
 }
 
 resource "aws_security_group" "allow_all" {
